@@ -38,4 +38,12 @@ public class Mrowka {
         return wylosowanyPort;
     }
 
+    public void losujKolejnyPort(){
+        Random random = new Random();
+        int wylosowanyPort;
+
+    }
+
+
+
 }
