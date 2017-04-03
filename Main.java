@@ -35,22 +35,34 @@ public class Main extends Application {
         Port gdynia = new Port(1,"Gdynia");
         Port gdansk = new Port(2,"Gdansk");
         Port szczecin = new Port(3,"Szczecin");
+        Port swinoujscie = new Port(4, "Swinoujscie");
 
         porty.add(gdynia);
         porty.add(gdansk);
         porty.add(szczecin);
+        porty.add(swinoujscie);
 
         Trasa gdyniaGdansk = new Trasa(10,1,2);
         Trasa gdyniaSzczecin = new Trasa(11,1,3);
-        Trasa gdanskSzczecin = new Trasa(12,2,3);
+        Trasa gdyniaSwinoujscie = new Trasa(12,1,4);
+        Trasa gdanskSzczecin = new Trasa(13,2,3);
+        Trasa gdanskSwinoujscie = new Trasa(14,2,4);
+        Trasa szczecinSwinoujscie = new Trasa(15,3,4);
         
         trasy.add(gdyniaGdansk);
         trasy.add(gdyniaSzczecin);
+        trasy.add(gdyniaSwinoujscie);
         trasy.add(gdanskSzczecin);
+        trasy.add(gdanskSwinoujscie);
+        trasy.add(szczecinSwinoujscie);
 
-        Trasa.dodawanieTras(porty,trasy);
+        //Trasa.dodawanieTras(porty,trasy);
 
-        Port.wypiszDostepneTrasy(porty);
+        //Port.wypiszDostepneTrasy(porty);
+
+       mrowka.wykonajTrase(porty);
+        mrowka.wypiszPorty();
+
 
     }
 

@@ -1,5 +1,8 @@
 package sample;
 
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 
 /**
@@ -9,7 +12,11 @@ public class Mrowka {
 
     private int numer;
 
-    private int[] trasa;
+    private int[] trasa = new int[6];
+
+    private List<Port> odwiedzonePorty = new LinkedList<>();
+
+    private List<Port> mozliwePorty = new LinkedList<>();
 
     public Mrowka(int numer) {
         this.numer = numer;
@@ -31,16 +38,39 @@ public class Mrowka {
         this.trasa = trasa;
     }
 
-    public int losujPierwszyPort(){
-        Random random = new Random();
-        int wylosowanyPort;
-        wylosowanyPort = random.nextInt(3) + 1;
-        return wylosowanyPort;
+
+
+    public void wykonajTrase(List<Port> porty){
+        mozliwePorty = porty;
+        wypiszMozliwe(mozliwePorty);
+        losujPort(mozliwePorty);
+        if (mozliwePorty.size() > 0 ){
+            wykonajTrase(mozliwePorty);
+        }
     }
 
-    public void losujKolejnyPort(){
+    public void losujPort(List<Port> porty) {
         Random random = new Random();
         int wylosowanyPort;
+        wylosowanyPort = random.nextInt(porty.size());
+       odwiedzonePorty.add(porty.get(wylosowanyPort));
+        porty.remove(wylosowanyPort);
+    }
+
+
+    public void wypiszPorty() {
+        System.out.println("Odwiedzone porty to: ");
+        for (Port port : odwiedzonePorty) {
+            System.out.println(port.getNazwaPortu());
+        }
+
+    }
+
+    public void wypiszMozliwe(List<Port> porty) {
+        System.out.println("Mozliwe porty to: ");
+        for (Port port : porty) {
+            System.out.println(port.getNazwaPortu());
+        }
 
     }
 
