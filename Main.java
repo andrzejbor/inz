@@ -6,8 +6,11 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+
+import static javafx.scene.input.KeyCode.T;
 
 public class Main extends Application {
 
@@ -42,12 +45,12 @@ public class Main extends Application {
         porty.add(szczecin);
         porty.add(swinoujscie);
 
-        Trasa gdyniaGdansk = new Trasa(10,1,2);
-        Trasa gdyniaSzczecin = new Trasa(11,1,3);
-        Trasa gdyniaSwinoujscie = new Trasa(12,1,4);
-        Trasa gdanskSzczecin = new Trasa(13,2,3);
-        Trasa gdanskSwinoujscie = new Trasa(14,2,4);
-        Trasa szczecinSwinoujscie = new Trasa(15,3,4);
+        Trasa gdyniaGdansk = new Trasa(10,gdynia,gdansk, 10);
+        Trasa gdyniaSzczecin = new Trasa(11,gdynia,szczecin, 11);
+        Trasa gdyniaSwinoujscie = new Trasa(12,gdynia,swinoujscie, 12);
+        Trasa gdanskSzczecin = new Trasa(13,gdansk,szczecin, 13);
+        Trasa gdanskSwinoujscie = new Trasa(14,gdansk,swinoujscie, 14);
+        Trasa szczecinSwinoujscie = new Trasa(15,szczecin,swinoujscie, 15);
         
         trasy.add(gdyniaGdansk);
         trasy.add(gdyniaSzczecin);
@@ -56,14 +59,15 @@ public class Main extends Application {
         trasy.add(gdanskSwinoujscie);
         trasy.add(szczecinSwinoujscie);
 
-        //Trasa.dodawanieTras(porty,trasy);
-
-        //Port.wypiszDostepneTrasy(porty);
-
-       mrowka.wykonajTrase(porty);
-        mrowka.wypiszPorty();
+        for (Port port : porty) {
+            port.dostepneTrasy(port, trasy);
+        }
 
 
+
+        mrowka.wykonajTraseFeromon(porty,trasy);
+        mrowka.wypiszPrzebyteTrasy();
+        mrowka.wypiszOdwiedzonePorty();
     }
 
     

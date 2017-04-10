@@ -2,6 +2,8 @@ package sample;
 
 import java.util.List;
 
+import static javafx.scene.input.KeyCode.T;
+
 /**
  * Created by Andrzej on 29.03.2017.
  */
@@ -9,9 +11,9 @@ public class Trasa implements funkcje {
 
     private int idTrasy;
 
-    private int port1;
+    private Port port1;
 
-    private int port2;
+    private Port port2;
 
     private int kosztTransportu;
 
@@ -19,15 +21,11 @@ public class Trasa implements funkcje {
 
     public Trasa() {}
 
-    public Trasa(int port1, int port2) {
-        this.port1 = port1;
-        this.port2 = port2;
-    }
-
-    public Trasa(int idTrasy, int port1, int port2) {
+    public Trasa(int idTrasy, Port port1, Port port2, int kosztTransportu) {
         this.idTrasy = idTrasy;
         this.port1 = port1;
         this.port2 = port2;
+        this.kosztTransportu = kosztTransportu;
     }
 
     public int getKosztTransportu() {
@@ -46,19 +44,19 @@ public class Trasa implements funkcje {
         this.iloscFeromonu = iloscFeromonu;
     }
 
-    public int getPort1() {
+    public Port getPort1() {
         return port1;
     }
 
-    public void setPort1(int port1) {
+    public void setPort1(Port port1) {
         this.port1 = port1;
     }
 
-    public int getPort2() {
+    public Port getPort2() {
         return port2;
     }
 
-    public void setPort2(int port2) {
+    public void setPort2(Port port2) {
         this.port2 = port2;
     }
 
@@ -70,17 +68,5 @@ public class Trasa implements funkcje {
         this.idTrasy = idTrasy;
     }
 
-    static void dodawanieTras(List<Port> porty, List<Trasa> trasy) {
-        for (Port port : porty) {
-            int i = 0;
-            for (Trasa trasa : trasy){
-                if (trasa.getPort1() == port.getId() || trasa.getPort2() == port.getId()){
-                    port.dodajDostepnaTrase(i,trasa.getIdTrasy());
-                    i++;
-                }
-            }
-
-        }
-    }
 
 }

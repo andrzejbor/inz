@@ -1,5 +1,6 @@
 package sample;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -11,8 +12,7 @@ public class Port implements funkcje {
 
     private String nazwaPortu;
 
-    private int[] dostepneTrasy = new int[5];
-
+    private List<Trasa> mozliweTrasy = new LinkedList<>();
 
     public Port(int id, String nazwaPortu) {
         this.id = id;
@@ -36,22 +36,22 @@ public class Port implements funkcje {
         this.nazwaPortu = nazwaPortu;
     }
 
-    public int[] getDostepneTrasy() {
-        return dostepneTrasy;
+    public List<Trasa> getMozliweTrasy() {
+        return mozliweTrasy;
     }
 
-    public void dodajDostepnaTrase(int i, int trasa) {
-        dostepneTrasy[i] = trasa;
+    public void setMozliweTrasy(List<Trasa> mozliweTrasy) {
+        this.mozliweTrasy = mozliweTrasy;
     }
 
-    static void wypiszDostepneTrasy(List<Port> porty) {
-        for (Port port : porty){
-            System.out.println(port.getNazwaPortu());
-            for (int i=0; i < port.dostepneTrasy.length; i++ ){
-                if (!(port.dostepneTrasy[i] == 0 )) {
-                    System.out.println(port.dostepneTrasy[i]+" ");
-                }
+    public void dostepneTrasy (Port port, List<Trasa> trasy) {
+        mozliweTrasy.clear();
+        for (Trasa trasa : trasy) {
+            if (trasa.getPort1() == port || trasa.getPort2() == port) {
+                mozliweTrasy.add(trasa);
             }
         }
+
     }
+
 }
