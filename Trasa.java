@@ -19,8 +19,6 @@ public class Trasa implements funkcje {
 
     private int iloscFeromonu;
 
-    public Trasa() {}
-
     public Trasa(int idTrasy, Port port1, Port port2, int kosztTransportu) {
         this.idTrasy = idTrasy;
         this.port1 = port1;
@@ -67,6 +65,7 @@ public class Trasa implements funkcje {
     public void setIdTrasy(int idTrasy) {
         this.idTrasy = idTrasy;
     }
+
 
 
 }
