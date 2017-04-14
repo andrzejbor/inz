@@ -42,6 +42,13 @@ public class Mrowka {
         this.kosztTrasy = kosztTrasy;
     }
 
+    public List<Trasa> getPrzebyteTrasy() {
+        return przebyteTrasy;
+    }
+
+    public void setPrzebyteTrasy(List<Trasa> przebyteTrasy) {
+        this.przebyteTrasy = przebyteTrasy;
+    }
 
     public void losujPort(List<Port> porty) {
         Random random = new Random();
