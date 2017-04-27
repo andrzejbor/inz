@@ -1,24 +1,34 @@
 package sample;
 
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 
 public class Main extends Application {
 
+    static Random random = new Random();
+
+    public static ObservableList<Record> data = FXCollections.observableArrayList();
+
+    static final String Porty[] = {
+            "Gdynia",
+            "Gdansk",
+            "Szczecin",
+            "Swinoujscie",
+            "Ustka"};
+
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
-        primaryStage.setTitle("Hello World");
-        primaryStage.setScene(new Scene(root, 300, 275));
+        primaryStage.setTitle("Algorytm mrówkowy");
+        primaryStage.setScene(new Scene(root, 600, 400));
         primaryStage.show();
     }
 
