@@ -2,6 +2,8 @@ package sample;
 
 import java.util.*;
 
+import static sample.Main.random;
+
 /**
  * Created by Andrzej on 29.03.2017.
  */
@@ -48,6 +50,10 @@ public class Mrowka {
 
     public void setPrzebyteTrasy(List<Trasa> przebyteTrasy) {
         this.przebyteTrasy = przebyteTrasy;
+    }
+
+    public Port getObecnyPort() {
+        return obecnyPort;
     }
 
     public void losujPort(List<Port> porty) {
@@ -104,7 +110,6 @@ public class Mrowka {
 
 
     public void losujPierwszaTrase(List<Trasa> trasy) {
-        Random random = new Random();
         int wylosowanaTrasa = random.nextInt(obecnyPort.getMozliweTrasy().size());
         przebyteTrasy.add(obecnyPort.getMozliweTrasy().get(wylosowanaTrasa));
         ostatniPort = obecnyPort;

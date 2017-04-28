@@ -1,7 +1,5 @@
 package sample;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -15,17 +13,15 @@ import javafx.util.Callback;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import static sample.Main.Porty;
-import static sample.Main.random;
-import static sample.Main.data;
+import static sample.Main.*;
 
 public class Controller implements Initializable {
 
     @FXML
-    Button btnNew;
+    Button Losowanie;
 
     @FXML
-    Button btnSec;
+    Button Algorytm;
 
     @FXML
     TextField tekst;
@@ -37,8 +33,24 @@ public class Controller implements Initializable {
     EventHandler<ActionEvent> btnSecAction = new EventHandler<ActionEvent>() {
         @Override
         public void handle(ActionEvent event) {
-            tekst.setText("Dziala");
-            btnSec.setText("Dziala");
+            tworzMrowki(mrowki, 10);
+
+            int iloscProb = 100;
+
+
+            for (int i = 0; i < iloscProb; i++) {
+                for (Mrowka mrowkaZ : mrowki) {
+                    mrowkaZ.wykonajTrasePart1(porty, trasy);
+                    wybierzNajlepszaTrase(mrowkaZ, najlepszaTrasa);
+                }
+                for (Mrowka mrowkaZ : mrowki) {
+                    mrowkaZ.wykonajTrasePart2(trasy);
+                    System.out.println(mrowkaZ.getKosztTrasy());
+                }
+            }
+
+            wypiszFeromon(trasy);
+            wypiszNajlepszaTrase(najlepszaTrasa);
         }
     };
 
@@ -49,9 +61,9 @@ public class Controller implements Initializable {
                 public void handle(ActionEvent t) {
 
                     data.clear();
-                    for (int j = 0; j < Porty.length; j++) {
+                    for (int j = 0; j < porty.size(); j++) {
                         Record newRec = new Record(
-                                Porty[j],
+                                porty.get(j).getNazwaPortu(),
                                 random.nextInt(100),
                                 random.nextInt(100),
                                 random.nextInt(100),
@@ -60,7 +72,7 @@ public class Controller implements Initializable {
                         zerowanie(j, newRec);
                         data.add(newRec);
                     }
-                    btnSec.setDisable(false);
+                    Algorytm.setDisable(false);
                 }
 
             };
@@ -87,8 +99,8 @@ public class Controller implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        btnSec.setOnAction(btnSecAction);
-        btnNew.setOnAction(btnNewHandler);
+        Algorytm.setOnAction(btnSecAction);
+        Losowanie.setOnAction(btnNewHandler);
         tableView.setEditable(true);
         Callback<TableColumn, TableCell> cellFactory =
                 new Callback<TableColumn, TableCell>() {
@@ -101,8 +113,8 @@ public class Controller implements Initializable {
         TableColumn col_id = new TableColumn("Port");
         tableView.getColumns().add(col_id);
         col_id.setCellValueFactory(new PropertyValueFactory<Record, String>("id"));
-        for (int i = 0; i < Porty.length; i++) {
-            TableColumn col = new TableColumn(Porty[i]);
+        for (int i = 0; i < porty.size(); i++) {
+            TableColumn col = new TableColumn(porty.get(i).getNazwaPortu());
             col.setCellValueFactory(
                     new PropertyValueFactory<Record, String>(
                             "value_" + String.valueOf(i)));
