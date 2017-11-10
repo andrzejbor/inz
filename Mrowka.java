@@ -2,6 +2,7 @@ package sample;
 
 import java.util.*;
 
+import static oracle.jrockit.jfr.events.Bits.intValue;
 import static sample.Main.random;
 
 /**
@@ -22,7 +23,7 @@ public class Mrowka {
 
     private Port ostatniPort;
 
-    private final int podstawowyFeromon = 39;
+    private final int podstawowyFeromon = 70;
 
     public Mrowka(int numer) {
         this.numer = numer;
@@ -56,13 +57,17 @@ public class Mrowka {
         return obecnyPort;
     }
 
-    public void losujPort(List<Port> porty) {
-        Random random = new Random();
-        int wylosowanyPort = random.nextInt(porty.size());
-        odwiedzonePorty.add(porty.get(wylosowanyPort));
-        obecnyPort = porty.get(wylosowanyPort);
+    public void setObecnyPort(Port obecnyPort) {
+        this.obecnyPort = obecnyPort;
     }
 
+    public void dodajOdwiedzonyPort(Port odwiedzonyPort) {
+        odwiedzonePorty.add(odwiedzonyPort);
+    }
+
+    public List<Port> getOdwiedzonePorty() {
+        return odwiedzonePorty;
+    }
 
     public void wypiszOdwiedzonePorty() {
         System.out.println("Odwiedzone porty to: ");
@@ -73,7 +78,7 @@ public class Mrowka {
     }
 
 
-    public void wypiszPrzebyteTrasy() {
+    public void wypiszPrzebyteTrasy(List<Trasa> przebyteTrasy) {
         System.out.println("Przebyte trasy to:");
         for (Trasa trasa : przebyteTrasy) {
             System.out.println(trasa.getIdTrasy());
@@ -81,24 +86,23 @@ public class Mrowka {
     }
 
 
-    public void wykonajTraseFeromon(List<Port> porty, List<Trasa> trasy) {
-        List<Trasa> mozliweTrasy = new LinkedList<>(trasy);
-        przebyteTrasy.clear();
-        odwiedzonePorty.clear();
-        kosztTrasy = 0;
-        losujPort(porty);
-        losujPierwszaTrase(mozliweTrasy);
-        losujTrase(mozliweTrasy);
-        dodawanieFeromonu(przebyteTrasy);
-        parowanieFeromonu(trasy);
-    }
+//    public void wykonajTraseFeromon(List<Port> porty, List<Trasa> trasy) {
+//        List<Trasa> mozliweTrasy = new LinkedList<>(trasy);
+//        przebyteTrasy.clear();
+//        odwiedzonePorty.clear();
+//        kosztTrasy = 0;
+//        losujPort(porty);
+//        losujPierwszaTrase(mozliweTrasy);
+//        losujTrase(mozliweTrasy);
+//        dodawanieFeromonu(przebyteTrasy);
+//        parowanieFeromonu(trasy);
+//    }
 
     public void wykonajTrasePart1(List<Port> porty, List<Trasa> trasy) {
         List<Trasa> mozliweTrasy = new LinkedList<>(trasy);
         przebyteTrasy.clear();
-        odwiedzonePorty.clear();
+        wyczyscListe(odwiedzonePorty);
         kosztTrasy = 0;
-        losujPort(porty);
         losujPierwszaTrase(mozliweTrasy);
         losujTrase(mozliweTrasy);
     }
@@ -170,8 +174,8 @@ public class Mrowka {
     public void parowanieFeromonu(List<Trasa> trasy) {
         for (Trasa trasa : trasy) {
             int i = trasa.getIloscFeromonu();
-            if (i > 1) {
-                trasa.setIloscFeromonu(i - 1);
+            if (i * 0.8 > 1) {
+                trasa.setIloscFeromonu(intValue(i * 0.7));
             }
         }
     }
@@ -182,6 +186,13 @@ public class Mrowka {
                 trasa.setIloscFeromonu(trasa.getIloscFeromonu() + (podstawowyFeromon - kosztTrasy));
             }
         }
+    }
+
+    public void wyczyscListe (List<Port> porty) {
+        Port zastepczy = new Port();
+        zastepczy = porty.get(0);
+        porty.clear();
+        porty.add(zastepczy);
     }
 
 

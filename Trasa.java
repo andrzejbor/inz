@@ -26,6 +26,8 @@ public class Trasa implements funkcje {
         this.kosztTransportu = kosztTransportu;
     }
 
+    public Trasa() {}
+
     public int getKosztTransportu() {
         return kosztTransportu;
     }

@@ -35,10 +35,14 @@ public class Controller implements Initializable {
         public void handle(ActionEvent event) {
             tworzMrowki(mrowki, 10);
 
-            int iloscProb = 100;
+            losujPort(porty, mrowki);
+            
 
+            int i = 0;
+            int kosztNajlepszejTrasy = najlepszaTrasa.getKosztTrasy();
 
-            for (int i = 0; i < iloscProb; i++) {
+            while (i < 10) {
+
                 for (Mrowka mrowkaZ : mrowki) {
                     mrowkaZ.wykonajTrasePart1(porty, trasy);
                     wybierzNajlepszaTrase(mrowkaZ, najlepszaTrasa);
@@ -46,6 +50,18 @@ public class Controller implements Initializable {
                 for (Mrowka mrowkaZ : mrowki) {
                     mrowkaZ.wykonajTrasePart2(trasy);
                     System.out.println(mrowkaZ.getKosztTrasy());
+                }
+                if (kosztNajlepszejTrasy == najlepszaTrasa.getKosztTrasy()) {
+                    i++;
+                } else {
+                    if (kosztNajlepszejTrasy == 0) {
+                        kosztNajlepszejTrasy = najlepszaTrasa.getKosztTrasy();
+                    } else {
+                        if (kosztNajlepszejTrasy > najlepszaTrasa.getKosztTrasy()) {
+                            kosztNajlepszejTrasy = najlepszaTrasa.getKosztTrasy();
+                            i = 0;
+                        }
+                    }
                 }
             }
 

@@ -19,6 +19,7 @@ public class Port implements funkcje {
         this.nazwaPortu = nazwaPortu;
     }
 
+    public Port() {}
 
     public int getId() {
         return id;

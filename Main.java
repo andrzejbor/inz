@@ -74,6 +74,15 @@ public class Main extends Application {
         System.out.println("Koszt trasy to " + najlepszaTrasa.getKosztTrasy());
     }
 
+    public static void losujPort(List<Port> porty, List<Mrowka> mrowki) {
+        Random random = new Random();
+        int wylosowanyPort = random.nextInt(porty.size());
+        for (Mrowka mrowkaZ: mrowki) {
+           mrowkaZ.dodajOdwiedzonyPort(porty.get(wylosowanyPort));
+           mrowkaZ.setObecnyPort(porty.get(wylosowanyPort));
+        }
+    }
+
     public static void przygotowanie() {
         Port gdynia = new Port(1, "Gdynia");
         Port gdansk = new Port(2, "Gdansk");
