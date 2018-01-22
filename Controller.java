@@ -11,6 +11,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Callback;
 
 import java.net.URL;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ResourceBundle;
 
 import static sample.Main.*;
@@ -33,10 +35,13 @@ public class Controller implements Initializable {
     EventHandler<ActionEvent> btnSecAction = new EventHandler<ActionEvent>() {
         @Override
         public void handle(ActionEvent event) {
+
+            Instant b = Instant.now();
+
             tworzMrowki(mrowki, 10);
 
             losujPort(porty, mrowki);
-            
+
 
             int i = 0;
             int kosztNajlepszejTrasy = najlepszaTrasa.getKosztTrasy();
@@ -44,7 +49,7 @@ public class Controller implements Initializable {
             while (i < 10) {
 
                 for (Mrowka mrowkaZ : mrowki) {
-                    mrowkaZ.wykonajTrasePart1(porty, trasy);
+                    mrowkaZ.wykonajTrasePart1(trasy);
                     wybierzNajlepszaTrase(mrowkaZ, najlepszaTrasa);
                 }
                 for (Mrowka mrowkaZ : mrowki) {
@@ -65,8 +70,11 @@ public class Controller implements Initializable {
                 }
             }
 
+            Instant e = Instant.now();
+            Duration timeElapsed = Duration.between(b, e);
             wypiszFeromon(trasy);
             wypiszNajlepszaTrase(najlepszaTrasa);
+            System.out.println("Czas wykonania w milisekundach to: " +timeElapsed.toMillis());
         }
     };
 

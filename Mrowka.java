@@ -98,7 +98,7 @@ public class Mrowka {
 //        parowanieFeromonu(trasy);
 //    }
 
-    public void wykonajTrasePart1(List<Port> porty, List<Trasa> trasy) {
+    public void wykonajTrasePart1(List<Trasa> trasy) {
         List<Trasa> mozliweTrasy = new LinkedList<>(trasy);
         przebyteTrasy.clear();
         wyczyscListe(odwiedzonePorty);
@@ -129,14 +129,20 @@ public class Mrowka {
 
     public void losujTrase(List<Trasa> trasy) {
         Random random = new Random();
+        int maksymalnyKoszt = maksymalnyKosztTrasy(trasy);
         List<Trasa> mozliweTrasyDlaPortu = new LinkedList<>();
         for (Trasa trasa : trasy) {
             if (trasa.getPort1() == obecnyPort || trasa.getPort2() == obecnyPort) {
                 if (trasa.getIloscFeromonu() == 0) {
-                    mozliweTrasyDlaPortu.add(trasa);
+                    for (int k = 0; k < (((maksymalnyKoszt-trasa.getKosztTransportu())+2)*2); k++){
+                        mozliweTrasyDlaPortu.add(trasa);
+                    }
                 } else {
                     int j = trasa.getIloscFeromonu();
                     for (int i = 0; i < j; i++) {
+                        mozliweTrasyDlaPortu.add(trasa);
+                    }
+                    for (int k = 0; k < ((maksymalnyKoszt-trasa.getKosztTransportu()+2)); k++){
                         mozliweTrasyDlaPortu.add(trasa);
                     }
                 }
@@ -174,7 +180,7 @@ public class Mrowka {
     public void parowanieFeromonu(List<Trasa> trasy) {
         for (Trasa trasa : trasy) {
             int i = trasa.getIloscFeromonu();
-            if (i * 0.8 > 1) {
+            if (i * 0.7 > 1) {
                 trasa.setIloscFeromonu(intValue(i * 0.7));
             }
         }
@@ -195,5 +201,14 @@ public class Mrowka {
         porty.add(zastepczy);
     }
 
+    public int maksymalnyKosztTrasy(List<Trasa> trasy){
+        int maksymalnyKoszt = 0;
+        for (Trasa trasa:trasy) {
+            if (trasa.getKosztTransportu() > maksymalnyKoszt){
+                maksymalnyKoszt = trasa.getKosztTransportu();
+            }
+        }
+        return maksymalnyKoszt;
+    }
 
 }
