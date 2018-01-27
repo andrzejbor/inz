@@ -180,16 +180,16 @@ public class Mrowka {
     public void parowanieFeromonu(List<Trasa> trasy) {
         for (Trasa trasa : trasy) {
             int i = trasa.getIloscFeromonu();
-            if (i * 0.7 > 1) {
-                trasa.setIloscFeromonu(intValue(i * 0.7));
+            if (i * 0.8 > 1) {
+                trasa.setIloscFeromonu(intValue(i * 0.8));
             }
         }
     }
 
     public void dodawanieFeromonu(List<Trasa> trasy) {
         for (Trasa trasa : trasy) {
-            if (podstawowyFeromon - kosztTrasy > 0) {
-                trasa.setIloscFeromonu(trasa.getIloscFeromonu() + (podstawowyFeromon - kosztTrasy));
+            if (podstawowyFeromon - trasa.getKosztTransportu() > 0) {
+                trasa.setIloscFeromonu(trasa.getIloscFeromonu() + (podstawowyFeromon - trasa.getKosztTransportu()));
             }
         }
     }
