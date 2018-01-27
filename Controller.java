@@ -44,6 +44,7 @@ public class Controller implements Initializable {
 
 
             int i = 0;
+            int licznikPrzejsc = 0;
             int kosztNajlepszejTrasy = najlepszaTrasa.getKosztTrasy();
 
             while (i < 10) {
@@ -68,13 +69,16 @@ public class Controller implements Initializable {
                         }
                     }
                 }
+                licznikPrzejsc++;
             }
 
             Instant e = Instant.now();
             Duration timeElapsed = Duration.between(b, e);
+            int czas = timeElapsed.getNano() / 1000000;
             wypiszFeromon(trasy);
             wypiszNajlepszaTrase(najlepszaTrasa);
-            System.out.println("Czas wykonania w milisekundach to: " +timeElapsed.toMillis());
+            System.out.println("Ilosc przejsc to: " + licznikPrzejsc);
+            System.out.println("Czas wykonania w milisekundach to: " + czas);
         }
     };
 
