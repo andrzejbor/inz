@@ -10,9 +10,12 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Callback;
 
+
 import java.net.URL;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import static sample.Main.*;
@@ -36,45 +39,76 @@ public class Controller implements Initializable {
         @Override
         public void handle(ActionEvent event) {
 
-            Instant b = Instant.now();
+            int iloscProb = 100;
+            int n = 0;
 
-            tworzMrowki(mrowki, 10);
+            LinkedList<Integer> koszty = new LinkedList<>();
+            LinkedList<Integer> przejscia = new LinkedList<>();
+            LinkedList<Integer> czasy = new LinkedList<>();
 
-            losujPort(porty, mrowki);
+            while (n <= iloscProb) {
+
+                Instant b = Instant.now();
+
+                tworzMrowki(mrowki, 10);
+
+                losujPort(porty, mrowki);
 
 
-            int i = 0;
-            int kosztNajlepszejTrasy = najlepszaTrasa.getKosztTrasy();
+                int i = 0;
+                int licznikPrzejsc = 0;
+                int kosztNajlepszejTrasy = najlepszaTrasa.getKosztTrasy();
 
-            while (i < 10) {
+                while (i < 10) {
 
-                for (Mrowka mrowkaZ : mrowki) {
-                    mrowkaZ.wykonajTrasePart1(trasy);
-                    wybierzNajlepszaTrase(mrowkaZ, najlepszaTrasa);
-                }
-                for (Mrowka mrowkaZ : mrowki) {
-                    mrowkaZ.wykonajTrasePart2(trasy);
-                    System.out.println(mrowkaZ.getKosztTrasy());
-                }
-                if (kosztNajlepszejTrasy == najlepszaTrasa.getKosztTrasy()) {
-                    i++;
-                } else {
-                    if (kosztNajlepszejTrasy == 0) {
-                        kosztNajlepszejTrasy = najlepszaTrasa.getKosztTrasy();
+                    for (Mrowka mrowkaZ : mrowki) {
+                        mrowkaZ.wykonajTrasePart1(trasy);
+                        wybierzNajlepszaTrase(mrowkaZ, najlepszaTrasa);
+                    }
+                    for (Mrowka mrowkaZ : mrowki) {
+                        mrowkaZ.wykonajTrasePart2(trasy);
+//                        System.out.println(mrowkaZ.getKosztTrasy());
+                    }
+                    if (kosztNajlepszejTrasy == najlepszaTrasa.getKosztTrasy()) {
+                        i++;
                     } else {
-                        if (kosztNajlepszejTrasy > najlepszaTrasa.getKosztTrasy()) {
+                        if (kosztNajlepszejTrasy == 0) {
                             kosztNajlepszejTrasy = najlepszaTrasa.getKosztTrasy();
-                            i = 0;
+                        } else {
+                            if (kosztNajlepszejTrasy > najlepszaTrasa.getKosztTrasy()) {
+                                kosztNajlepszejTrasy = najlepszaTrasa.getKosztTrasy();
+                                i = 0;
+                            }
                         }
                     }
+                    licznikPrzejsc++;
                 }
-            }
 
-            Instant e = Instant.now();
-            Duration timeElapsed = Duration.between(b, e);
-            wypiszFeromon(trasy);
-            wypiszNajlepszaTrase(najlepszaTrasa);
-            System.out.println("Czas wykonania w milisekundach to: " +timeElapsed.toMillis());
+
+                Instant e = Instant.now();
+                Duration timeElapsed = Duration.between(b, e);
+
+                int czas = timeElapsed.getNano() / 1000000;
+
+                koszty.add(kosztNajlepszejTrasy);
+                czasy.add(czas);
+                przejscia.add(licznikPrzejsc);
+//                wypiszFeromon(trasy);
+                wypiszNajlepszaTrase(najlepszaTrasa);
+                System.out.println("Ilość przejść to: " + licznikPrzejsc);
+                System.out.println("Czas wykonania w milisekundach to: " + czas);
+
+                mrowki.clear();
+                czyszczenieFeromonu(trasy);
+                n++;
+            }
+            System.out.println("średni czas to: " + srednia(czasy, n));
+            minMax(czasy);
+            System.out.println("średnia ilość przejść to: " + srednia(przejscia, n));
+            minMax(przejscia);
+            System.out.println("średni koszt to: " + srednia(koszty, n));
+            minMax(koszty);
+
         }
     };
 
@@ -148,5 +182,41 @@ public class Controller implements Initializable {
 
         }
     }
+
+    double srednia(LinkedList<Integer> dane, int iloscProb) {
+
+        double wynik = 0;
+
+        for (Integer dana : dane) {
+            wynik = wynik + dana;
+        }
+        wynik = wynik / iloscProb;
+        return wynik;
+    }
+
+    void minMax(LinkedList<Integer> dane) {
+
+        int min = dane.get(0);
+        int max = dane.get(0);
+
+        for (Integer dana : dane) {
+            if (dana > max) {
+                max = dana;
+            }
+            if (dana < min) {
+                min = dana;
+            }
+        }
+
+        System.out.println("minimalna wartość to: " + min);
+        System.out.println("maksymalna wartosc to " + max);
+    }
+
+    void czyszczenieFeromonu(List<Trasa> trasy){
+        for (Trasa trasa: trasy) {
+            trasa.setIloscFeromonu(0);
+        }
+    }
+
 }
 

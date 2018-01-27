@@ -134,7 +134,7 @@ public class Main extends Application {
 //        trasy.add(osloSzczecin);
 //        trasy.add(osloSwinoujscie);
 //        trasy.add(osloUstka);
-//
+
 //        Port ystad = new Port(7,"Ystad");
 //
 //        porty.add(ystad);
@@ -152,7 +152,7 @@ public class Main extends Application {
 //        trasy.add(ystadSwinoujscie);
 //        trasy.add(ystadUstaka);
 //        trasy.add(ystadOslo);
-//
+
 //        Port tallin = new Port(8,"Tallin");
 //
 //        porty.add(tallin);
@@ -172,8 +172,8 @@ public class Main extends Application {
 //        trasy.add(tallinUstka);
 //        trasy.add(tallinOslo);
 //        trasy.add(tallinYstad);
-//
-//
+
+
 //        Port ryga = new Port(9, "Ryga");
 //
 //        porty.add(ryga);
@@ -195,7 +195,7 @@ public class Main extends Application {
 //        trasy.add(rygaOslo);
 //        trasy.add(rygaYstad);
 //        trasy.add(rygaTallin);
-//
+
 //        Port helsinki = new Port(10,"Helsinki");
 //
 //        porty.add(helsinki);
